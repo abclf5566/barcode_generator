@@ -5,25 +5,25 @@ use image::{GrayImage, Luma};
 fn main() {
 
     // 測試用
-    let output = match Exec::cmd("cmd")
-        .args(&["/C", "type C:\\Users\\abclf\\OneDrive\\桌面\\1.txt"])
-        .stdout(Redirection::Pipe)
-        .capture() {
-            Ok(output) => output.stdout_str(),
-            Err(e) => {
-                eprintln!("Failed to capture output: {}", e);
-                return;
-            }
-        };
+    // let output = match Exec::cmd("cmd")
+    //     .args(&["/C", "type C:\\Users\\abclf\\OneDrive\\桌面\\1.txt"])
+    //     .stdout(Redirection::Pipe)
+    //     .capture() {
+    //         Ok(output) => output.stdout_str(),
+    //         Err(e) => {
+    //             eprintln!("Failed to capture output: {}", e);
+    //             return;
+    //         }
+    //     };
 
 
     // Execute the command to get the deviceid number
-    // let output = Exec::cmd("cmd")
-    //     .args(&["/C", "netsh mbn show interface | findstr /R \"[0-9][0-9]*$\""])//"for /f \"tokens=4\" %i in ("netsh mbn show interface ^| findstr /R \"[0-9][0-9]*$\"") do @echo %i"
-    //     .stdout(Redirection::Pipe)
-    //     .capture()
-    //     .unwrap()
-    //     .stdout_str();
+    let output = Exec::cmd("cmd")
+        .args(&["/C", "netsh mbn show interface | findstr /R \"[0-9][0-9]*$\""])//"for /f \"tokens=4\" %i in ("netsh mbn show interface ^| findstr /R \"[0-9][0-9]*$\"") do @echo %i"
+        .stdout(Redirection::Pipe)
+        .capture()
+        .unwrap()
+        .stdout_str();
 
     if let Some(deviceid) = output.lines().filter(|line| line.trim().chars().all(char::is_numeric)).last() {
         println!("deviceid: {}", deviceid.trim());
