@@ -1,7 +1,7 @@
-# Barcode Generator for Device IDs
+# Barcode Generator for Device IMEI work on Windows 10 
 
 ## Overview
-This program is designed to generate a barcode from a Device ID retrieved from the network interfaces on a Windows system. It uses the Code128 barcode standard, which is suitable for encoding alphanumeric data. The barcode is then saved as a PNG file, and optionally opened with the default image viewer.
+This program is designed to generate a barcode from a Device IMEI retrieved from the network interfaces on a Windows system. It uses the Code128 barcode standard, which is suitable for encoding alphanumeric data. The barcode is then saved as a PNG file, and optionally opened with the default image viewer.
 
 ## Functionality
 - **Retrieves Device ID:** The program uses the `netsh mbn show interface` command to find the last Device ID that consists only of numeric characters.
