@@ -22,3 +22,4 @@ This program is designed to generate a barcode from a Device ID retrieved from t
 1. **Compile the Program:**
    ```bash
    cargo build --release
+2. Or just run barcode_generator\target\release\barcode_generator.exe
