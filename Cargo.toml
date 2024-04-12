@@ -1,0 +1,11 @@
+[package]
+name = "barcode_generator"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+barcoders = "0.10.0"  # Check for the latest version
+image = "0.23.14"     # For handling image creation
+subprocess = "0.2.8"  # For executing shell commands
