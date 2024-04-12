@@ -22,6 +22,6 @@ This program is designed to generate a barcode from a Device IMEI retrieved from
 1. **Compile the Program:**
    ```bash
    cargo build --release
-2. **Run the Compiled Executable:**
+2. **Or Run the Compiled Executable:**
    ```bash
    ./target/release/barcode_generator.exe
