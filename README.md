@@ -1,3 +1,6 @@
+[日本語版はこちら](README_ja.md)
+[Read this in English](README.md)
+
 # Barcode Generator for Device IMEI on Windows 10
 
 ## Overview
