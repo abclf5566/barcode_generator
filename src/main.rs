@@ -19,12 +19,11 @@ fn main() {
 
     // Execute the command to get the deviceid number
     let output = Exec::cmd("cmd")
-        .args(&["/C", "netsh mbn show interface | findstr /R \"[0-9][0-9]*$\""])
+        .args(&["/C", "netsh mbn show interface | findstr /R \"[0-9][0-9]*$\""])//"for /f \"tokens=4\" %i in ("netsh mbn show interface ^| findstr /R \"[0-9][0-9]*$\"") do @echo %i"
         .stdout(Redirection::Pipe)
         .capture()
         .unwrap()
         .stdout_str();
-
 
     if let Some(deviceid) = output.lines().filter(|line| line.trim().chars().all(char::is_numeric)).last() {
         println!("deviceid: {}", deviceid.trim());
@@ -39,6 +38,7 @@ fn main() {
                 return;
             }
         };
+
         let encoded = code.encode();
 
         let width = encoded.len() as u32 * 3; // Example scaling factor
