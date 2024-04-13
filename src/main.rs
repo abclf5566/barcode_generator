@@ -3,7 +3,18 @@ use subprocess::{Exec, Redirection};
 use image::{GrayImage, Luma};
 use std::thread;
 use std::time::Duration;
+use walkdir::WalkDir;
 
+fn find_command_bat() -> Option<String> {
+    // 遍歷當前目錄及其所有子目錄
+    for entry in WalkDir::new(".") {
+        let entry = entry.unwrap();
+        if entry.file_name().to_string_lossy() == "command.bat" {
+            return Some(entry.path().to_string_lossy().to_string());
+        }
+    }
+    None
+}
 fn main() {
 
     // 測試用
@@ -22,12 +33,23 @@ fn main() {
     // Execute the command to get the deviceid number
     //"netsh mbn show interface | findstr /R \"[0-9][0-9]*$\""
     // 從文件讀取指令
+    // 嘗試找到 command.bat 的路徑
+    let command_path = match find_command_bat() {
+        Some(path) => path,
+        None => {
+            println!("command.bat not found.");
+            return;
+        }
+    };
+
+    // 從 command.bat 文件讀取指令並執行
     let output = Exec::cmd("cmd")
-        .args(&["/C", "command.bat"])
+        .args(&["/C", &command_path])
         .stdout(Redirection::Pipe)
         .capture()
         .unwrap()
         .stdout_str();
+
 
     if let Some(deviceid) = output.lines().filter(|line| line.trim().chars().all(char::is_numeric)).last() {
         println!("deviceid: {}", deviceid.trim());
