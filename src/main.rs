@@ -1,6 +1,8 @@
 use barcoders::sym::code128::Code128;
 use subprocess::{Exec, Redirection};
 use image::{GrayImage, Luma};
+use std::thread;
+use std::time::Duration;
 
 fn main() {
 
@@ -18,8 +20,10 @@ fn main() {
 
 
     // Execute the command to get the deviceid number
+    //"netsh mbn show interface | findstr /R \"[0-9][0-9]*$\""
+    // 從文件讀取指令
     let output = Exec::cmd("cmd")
-        .args(&["/C", "netsh mbn show interface | findstr /R \"[0-9][0-9]*$\""])//"for /f \"tokens=4\" %i in ("netsh mbn show interface ^| findstr /R \"[0-9][0-9]*$\"") do @echo %i"
+        .args(&["/C", "command.bat"])
         .stdout(Redirection::Pipe)
         .capture()
         .unwrap()
@@ -38,19 +42,18 @@ fn main() {
                 return;
             }
         };
-
+    
         let encoded = code.encode();
-
-        let width = encoded.len() as u32 * 3; // Example scaling factor
-        let height = 100; // Height of the barcode image
+        let width = encoded.len() as u32 * 2; // 調整條形碼寬度
+        let height = 100; // 條形碼高度
         let mut image = GrayImage::new(width, height);
-
+    
+        // 繪制條形碼
         for (x, barcode_pixel) in encoded.iter().enumerate() {
             let pixel_value = if *barcode_pixel == 0 { 255 } else { 0 };
             for y in 0..height {
-                image.put_pixel(x as u32 * 3, y, Luma([pixel_value]));
-                image.put_pixel(x as u32 * 3 + 1, y, Luma([pixel_value]));
-                image.put_pixel(x as u32 * 3 + 2, y, Luma([pixel_value]));
+                image.put_pixel(x as u32 * 2, y, Luma([pixel_value])); // 單像素寬度
+                image.put_pixel(x as u32 * 2 + 1, y, Luma([pixel_value]));
             }
         }
 
@@ -72,4 +75,6 @@ fn main() {
     } else {
         println!("No valid deviceid found.");
     }
+    // 暫停3秒
+    thread::sleep(Duration::from_secs(3));
 }
