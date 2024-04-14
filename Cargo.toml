@@ -10,4 +10,3 @@ barcoders = "0.10.0"  # Check for the latest version
 image = "0.23.14"     # For handling image creation
 subprocess = "0.2.8"  # For executing shell commands
 walkdir = "2.3.2"
-

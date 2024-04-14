@@ -1,9 +1,10 @@
 use barcoders::sym::code128::Code128;
 use subprocess::{Exec, Redirection};
 use image::{GrayImage, Luma};
-use std::thread;
-use std::time::Duration;
+//use std::thread;
+//use std::time::Duration;
 use walkdir::WalkDir;
+
 
 fn find_command_bat() -> Option<String> {
     // 遍歷當前目錄及其所有子目錄
@@ -30,10 +31,8 @@ fn main() {
     //     };
 
 
-    // Execute the command to get the deviceid number
     //"netsh mbn show interface | findstr /R \"[0-9][0-9]*$\""
-    // 從文件讀取指令
-    // 嘗試找到 command.bat 的路徑
+    // 從文件讀取指令並嘗試找到 command.bat 的路徑
     let command_path = match find_command_bat() {
         Some(path) => path,
         None => {
@@ -98,5 +97,5 @@ fn main() {
         println!("No valid deviceid found.");
     }
     // 暫停3秒
-    thread::sleep(Duration::from_secs(3));
+    //thread::sleep(Duration::from_secs(1));
 }

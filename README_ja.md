@@ -1,5 +1,6 @@
 [日本語版はこちら](README_ja.md)
 [Read this in English](README.md)
+#[Download the latest release here](https://github.com/abclf5566/barcode_generator/releases/download/release/barcode_generator.zip)
 
 # Windows 10用デバイスIMEIバーコードジェネレーター
 
