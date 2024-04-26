@@ -20,7 +20,7 @@ fn main() {
 
     // 測試用
     // let output = match Exec::cmd("cmd")
-    //     .args(&["/C", "type C:\\Users\\abclf\\OneDrive\\桌面\\1.txt"])
+    //     .args(&["/C", "type 輸入你的.txt"])
     //     .stdout(Redirection::Pipe)
     //     .capture() {
     //         Ok(output) => output.stdout_str(),
@@ -65,16 +65,24 @@ fn main() {
         };
     
         let encoded = code.encode();
-        let width = encoded.len() as u32 * 2; // 調整條形碼寬度
-        let height = 100; // 條形碼高度
+        let border_size = 10; // 設定邊框大小
+        let width = encoded.len() as u32 * 2 + 2 * border_size; // 加上兩邊的邊框
+        let height = 100 + 2 * border_size; // 高度也加上上下邊框
         let mut image = GrayImage::new(width, height);
     
-        // 繪制條形碼
-        for (x, barcode_pixel) in encoded.iter().enumerate() {
-            let pixel_value = if *barcode_pixel == 0 { 255 } else { 0 };
+        // 先將整個圖片背景設定為白色
+        for x in 0..width {
             for y in 0..height {
-                image.put_pixel(x as u32 * 2, y, Luma([pixel_value])); // 單像素寬度
-                image.put_pixel(x as u32 * 2 + 1, y, Luma([pixel_value]));
+                image.put_pixel(x, y, Luma([255]));
+            }
+        }
+    
+        // 繪制Barcode且加入邊框空白
+        for (x, barcode_pixel) in encoded.iter().enumerate() {
+            let pixel_value = if *barcode_pixel == 0 { 255 } else { 0 }; // 0 是白色，1 是黑色
+            for y in border_size..(height - border_size) {
+                image.put_pixel(x as u32 * 2 + border_size, y, Luma([pixel_value]));
+                image.put_pixel(x as u32 * 2 + 1 + border_size, y, Luma([pixel_value]));
             }
         }
 
